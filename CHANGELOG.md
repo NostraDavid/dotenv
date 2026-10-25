@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-10-25
+
+- Highlight constant words only when they form a complete unquoted value, preserving ordinary words such as trueish and nullish.
+- Keep quoted strings and text-valued environment semantics unchanged.
+
 ## [1.0.2] - 2026-10-25
 
 - End unfinished interpolation at its surrounding quote or line boundary, so later declarations and comments recover correctly.

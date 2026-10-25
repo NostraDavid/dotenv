@@ -104,3 +104,14 @@ test('balanced multiline quoted values retain string scopes and then recover', (
     assert.ok(next.tokens[0].scopes.includes('variable.other.env'));
   }
 });
+
+test('constant words require a complete unquoted value', () => {
+  for (const value of ['trueish', 'falsehood', 'nullish', 'true-value', 'true and more']) {
+    const line = 'VALUE=' + value;
+    assert.ok(!scopesAt(line, line.indexOf('=') + 1).includes('constant.language.env'), value);
+  }
+  for (const value of ['true', 'false', 'null', 'TRUE # comment']) {
+    const line = 'VALUE=' + value;
+    assert.ok(scopesAt(line, line.indexOf('=') + 1).includes('constant.language.env'), value);
+  }
+});
