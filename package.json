@@ -1,79 +1,116 @@
 {
-    "name": "dotenv",
-    "displayName": "DotENV",
-    "description": "Support for dotenv file syntax",
-    "version": "1.0.1",
-    "publisher": "mikestead",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.5.1"
-    },
-    "categories": [
-        "Languages"
-    ],
-    "keywords": [
-        "env",
-        "dotenv"
-    ],
-    "icon": "images/icon.png",
-    "galleryBanner": {
-        "color": "#3E1661",
-        "theme": "dark"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mikestead/vscode-dotenv.git"
-    },
-    "contributes": {
-        "languages": [
-            {
-                "id": "dotenv",
-                "aliases": [
-                    "Environment Variables",
-                    "dotenv",
-                    "env"
-                ],
-                "extensions": [
-                    ".flaskenv",
-                    ".env",
-                    ".env-sample",
-                    ".env.example",
-                    ".env.local",
-                    ".env.dev",
-                    ".env.dev.local",
-                    ".env.build",
-                    ".env.build.local",
-                    ".env.development",
-                    ".env.development.local",
-                    ".env.test",
-                    ".env.test.local",
-                    ".env.testing",
-                    ".env.qa",
-                    ".env.qa.local",
-                    ".env.uat",
-                    ".env.uat.local",
-                    ".env.stag",
-                    ".env.stag.local",
-                    ".env.stage",
-                    ".env.stage.local",
-                    ".env.staging",
-                    ".env.staging.local",
-                    ".env.live",
-                    ".env.live.local",
-                    ".env.production",
-                    ".env.production.local",
-                    ".env.prod",
-                    ".env.prod.local"
-                ],
-                "configuration": "./language-configuration.json"
-            }
+  "name": "nostradavid-dotenv",
+  "displayName": "DotENV by NostraDavid",
+  "version": "1.0.0",
+  "description": "Syntax highlighting for environment files, with tested quote, comment, assignment, and interpolation rules.",
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "env",
+    "dotenv"
+  ],
+  "homepage": "https://github.com/NostraDavid/dotenv#readme",
+  "bugs": {
+    "url": "https://github.com/NostraDavid/dotenv/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NostraDavid/dotenv.git"
+  },
+  "license": "MIT",
+  "author": "NostraDavid",
+  "publisher": "nostradavid",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/validate.mjs",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package --no-dependencies --githubBranch master",
+    "release:check": "node scripts/release-notes.mjs"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "dotenv",
+        "aliases": [
+          "Environment Variables",
+          "dotenv",
+          "env"
         ],
-        "grammars": [
-            {
-                "language": "dotenv",
-                "scopeName": "source.env",
-                "path": "./syntaxes/env.tmLanguage"
-            }
+        "extensions": [
+          ".flaskenv",
+          ".env",
+          ".env-sample",
+          ".env.example",
+          ".env.local",
+          ".env.dev",
+          ".env.dev.local",
+          ".env.build",
+          ".env.build.local",
+          ".env.development",
+          ".env.development.local",
+          ".env.test",
+          ".env.test.local",
+          ".env.testing",
+          ".env.qa",
+          ".env.qa.local",
+          ".env.uat",
+          ".env.uat.local",
+          ".env.stag",
+          ".env.stag.local",
+          ".env.stage",
+          ".env.stage.local",
+          ".env.staging",
+          ".env.staging.local",
+          ".env.live",
+          ".env.live.local",
+          ".env.production",
+          ".env.production.local",
+          ".env.prod",
+          ".env.prod.local"
+        ],
+        "configuration": "./language-configuration.json",
+        "filenamePatterns": [
+          ".env",
+          ".env.*",
+          ".env-*",
+          "*.env",
+          "*.env.*"
         ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "dotenv",
+        "scopeName": "source.env",
+        "path": "./syntaxes/env.tmLanguage.json"
+      }
+    ]
+  },
+  "overrides": {
+    "@vscode/vsce": {
+      "@azure/identity": "4.13.0",
+      "uuid": "11.1.1"
     }
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.0.0",
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
+  },
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24 <25",
+      "onFail": "error"
+    }
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#3E1661",
+    "theme": "dark"
+  }
 }

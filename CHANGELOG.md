@@ -1,10 +1,11 @@
-# Change Log
-All notable changes to the "dotenv" extension will be documented in this file.
+# Changelog
 
-## 1.1.0
-### Added
-- [#2](https://github.com/mikestead/vscode-dotenv/issues/2) Added support for more .env file extensions
+## [Unreleased]
 
-## 1.0.0
-### Added
-- Bundling https://github.com/zaynali53/DotENV for vscode extension
+## [1.0.0] - 2026-10-25
+
+- Start the maintained NostraDavid fork with the existing `dotenv` language and `source.env` scopes.
+- Add regression-tested assignment, interpolation, and comment highlighting.
+- Add reproducible development tools, beginner documentation, CI, and small-release packaging.
+
+Earlier releases are archived in [the upstream changelog](docs/upstream-CHANGELOG.md).

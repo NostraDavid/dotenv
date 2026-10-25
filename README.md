@@ -1,22 +1,19 @@
-# VSCode .env syntax highlighting
+# DotENV by NostraDavid
 
-A port of [DotENV](https://github.com/zaynali53/DotENV) for vscode.
+Syntax highlighting for environment files, with tested quote, comment, assignment, and interpolation rules.
 
-![Example](images/screenshot.png)
+A maintained fork of [mikestead/vscode-dotenv](https://github.com/mikestead/vscode-dotenv). Original authorship and license notices are preserved. This fork starts at **1.0.0**.
 
-### Associate files
+## Install
 
-If you use specific .env file naming convention (e.g. `.env.jenkins`) you can add dotenv support by setting the `files.associations` setting key as following :
+Download `nostradavid-dotenv-1.0.0.vsix` from [GitHub Releases](https://github.com/NostraDavid/dotenv/releases). In VS Code, open Extensions, choose **Install from VSIX**, and select that file.
 
-```json
-"files.associations": {
-    ".env.jenkins": "dotenv"
- }
- ```
- 
- Now, files with name `.env.jenkins` will be handled as dotenv file.
+Disable `mikestead.dotenv` before enabling this fork, since both register the `dotenv` language. Existing `[dotenv]` settings continue to work.
 
-### Acknowledgements
+See [the beginner guide](docs/getting-started.md), [contribution guide](CONTRIBUTING.md), [changelog](CHANGELOG.md), and [release guide](docs/releasing.md).
 
-- [Zayn Ali](https://github.com/zaynali53) for [DotENV](https://github.com/zaynali53/DotENV)
-- [motdotla](https://github.com/motdotla/dotenv) for the logo
+## Development
+
+Install Nix, enter `nix develop`, then run `just setup` and `just check`. Run `just package` to build a VSIX. The flake supports x86_64/aarch64 Linux and macOS, including Intel macOS through the pinned Nixpkgs revision.
+
+Dependency upgrades are explicit: `just lock-upgrade` and `just update-nix`. Normal setup uses the committed locks.
