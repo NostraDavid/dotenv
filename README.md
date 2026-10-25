@@ -25,6 +25,14 @@ Disable `mikestead.dotenv` before enabling this fork, since both register the `d
 
 See [the beginner guide](docs/getting-started.md), [contribution guide](CONTRIBUTING.md), [changelog](CHANGELOG.md), and [release guide](docs/releasing.md).
 
+## Supported syntax
+
+Declarations start with a key and its first `=`. Keys may contain letters, digits, underscores, dots, and hyphens. Spaces and an optional leading `export` are accepted. Later equals signs belong to the value.
+
+Single- and double-quoted values can span lines. Hashes inside quotes are literal; outside quotes they start comments. Apostrophes inside an unquoted value remain literal. `$NAME` and `${NAME}` receive variable highlighting outside single quotes. This describes highlighting, not a promise that every dotenv loader expands variables or accepts the same dialect. All environment values remain text at runtime.
+
+VS Code 1.106 and later also include basic dotenv highlighting. This fork retains `source.env` scopes for existing theme customizations; the built-in grammar uses `source.dotenv`. Disable the old mikestead extension before using this fork. Use **Developer: Inspect Editor Tokens and Scopes** to check which grammar is active. Explicit `files.associations` remain the way to select the dotenv language for unconventional filenames. This extension never changes your language selection through startup code.
+
 ## Development
 
 Install Nix, enter `nix develop`, then run `just setup` and `just check`. Run `just package` to build a VSIX. The flake supports x86_64/aarch64 Linux and macOS, including Intel macOS through the pinned Nixpkgs revision.

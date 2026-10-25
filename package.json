@@ -1,7 +1,7 @@
 {
   "name": "nostradavid-dotenv",
   "displayName": "DotENV by NostraDavid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Syntax highlighting for environment files, with tested quote, comment, assignment, and interpolation rules.",
   "categories": [
     "Programming Languages"

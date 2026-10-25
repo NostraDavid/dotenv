@@ -61,3 +61,22 @@ test('single-quoted references remain literal strings', () => {
   assert.ok(scopesAt(line, line.indexOf('HOME')).includes('string.quoted.single.env'));
   assert.ok(!scopesAt(line, line.indexOf('HOME')).includes('variable.other.env'));
 });
+
+test('only the first equals sign declares an assignment', () => {
+  for (const line of ['TOKEN=a=b=c', 'URL=https://example.test/?a=b&x=2', 'TOKEN=YWJjZA==', 'export A.B-C = "a=b"']) {
+    const tokens = grammar.tokenizeLine(line).tokens;
+    const assignments = tokens.filter(token => token.scopes.includes('keyword.operator.assignment.env'));
+    assert.equal(assignments.length, 1, line);
+    for (const token of tokens.filter(token => token.startIndex > line.indexOf('='))) {
+      assert.ok(!token.scopes.includes('keyword.operator.assignment.env'), line);
+    }
+  }
+  const url = 'URL=https://example.test/?a=b&x=2';
+  assert.ok(!scopesAt(url, url.indexOf('?a=') + 1).includes('variable.other.env'));
+  assert.ok(!scopesAt(url, url.indexOf('&x=') + 1).includes('variable.other.env'));
+});
+
+test('constant highlighting does not begin inside an unquoted word', () => {
+  const line = 'VALUE=nottruevalue';
+  assert.ok(!scopesAt(line, line.indexOf('true')).includes('constant.language.env'));
+});
