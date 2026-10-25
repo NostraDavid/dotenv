@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-10-25
+
+### Changed
+
+- Convert development scripts and grammar tests to strict TypeScript, checked by the normal local and CI commands.
+- Run these files with the existing Node 24 runtime, keeping the packaged grammar declarative and unchanged.
+
 ## [1.0.3] - 2026-10-25
 
 - Highlight constant words only when they form a complete unquoted value, preserving ordinary words such as trueish and nullish.

@@ -7,7 +7,7 @@ import textmate from 'vscode-textmate';
 
 const require = createRequire(import.meta.url);
 const wasm = fs.readFileSync(require.resolve('vscode-oniguruma/release/onig.wasm'));
-await oniguruma.loadWASM(wasm.buffer.slice(wasm.byteOffset, wasm.byteOffset + wasm.byteLength));
+await oniguruma.loadWASM(wasm);
 const registry = new textmate.Registry({
   onigLib: Promise.resolve({
     createOnigScanner: (patterns) => new oniguruma.OnigScanner(patterns),
@@ -18,10 +18,12 @@ const registry = new textmate.Registry({
       ? JSON.parse(fs.readFileSync(new URL('../syntaxes/env.tmLanguage.json', import.meta.url), 'utf8'))
       : null,
 });
-const grammar = await registry.loadGrammar('source.env');
+const loadedGrammar = await registry.loadGrammar('source.env');
+assert.ok(loadedGrammar, 'The registered grammar must load.');
+const grammar = loadedGrammar;
 
-function scopesAt(line, offset) {
-  return grammar.tokenizeLine(line).tokens.find((token) => token.startIndex <= offset && token.endIndex > offset)
+function scopesAt(line: string, offset: number) {
+  return grammar.tokenizeLine(line, null).tokens.find((token) => token.startIndex <= offset && token.endIndex > offset)
     ?.scopes ?? [];
 }
 
@@ -64,7 +66,7 @@ test('single-quoted references remain literal strings', () => {
 
 test('only the first equals sign declares an assignment', () => {
   for (const line of ['TOKEN=a=b=c', 'URL=https://example.test/?a=b&x=2', 'TOKEN=YWJjZA==', 'export A.B-C = "a=b"']) {
-    const tokens = grammar.tokenizeLine(line).tokens;
+    const tokens = grammar.tokenizeLine(line, null).tokens;
     const assignments = tokens.filter(token => token.scopes.includes('keyword.operator.assignment.env'));
     assert.equal(assignments.length, 1, line);
     for (const token of tokens.filter(token => token.startIndex > line.indexOf('='))) {
@@ -83,7 +85,7 @@ test('constant highlighting does not begin inside an unquoted word', () => {
 
 for (const firstLine of ['A="${UNFINISHED"', "UNQUOTED=it's literal"]) {
   test(`following declarations recover after ${firstLine}`, () => {
-    let state = grammar.tokenizeLine(firstLine).ruleStack;
+    let state = grammar.tokenizeLine(firstLine, null).ruleStack;
     const next = grammar.tokenizeLine('NEXT=ok', state);
     assert.ok(next.tokens[0].scopes.includes('variable.other.env'));
     assert.ok(next.tokens.some(token => token.scopes.includes('keyword.operator.assignment.env')));
@@ -96,7 +98,7 @@ for (const firstLine of ['A="${UNFINISHED"', "UNQUOTED=it's literal"]) {
 
 test('balanced multiline quoted values retain string scopes and then recover', () => {
   for (const quote of ['"', "'"]) {
-    let state = grammar.tokenizeLine(`A=${quote}first`).ruleStack;
+    let state = grammar.tokenizeLine(`A=${quote}first`, null).ruleStack;
     const content = grammar.tokenizeLine('second # literal', state);
     assert.ok(content.tokens.every(token => token.scopes.some(scope => scope.startsWith('string.quoted.'))));
     const end = grammar.tokenizeLine(`last${quote}`, content.ruleStack);

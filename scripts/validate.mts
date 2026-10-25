@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-const manifest = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+const manifest = JSON.parse(fs.readFileSync('package.json', 'utf8')) as typeof import('../package.json');
 for (const grammar of manifest.contributes.grammars) {
-  const source = JSON.parse(fs.readFileSync(grammar.path, 'utf8'));
+  const source = JSON.parse(fs.readFileSync(grammar.path, 'utf8')) as { scopeName: string; patterns: unknown[] };
   assert.equal(source.scopeName, grammar.scopeName);
   assert.ok(Array.isArray(source.patterns), 'A TextMate grammar must declare patterns.');
   assert.ok(manifest.contributes.languages.some((language) => language.id === grammar.language));

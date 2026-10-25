@@ -25,7 +25,7 @@ setup: sync
         fi
 
 [group('quality')]
-check: format-check lint test build release-check flake-check audit-all
+check: format-check lint type-check test build release-check flake-check audit-all
 
 [group('quality')]
 format:
@@ -45,6 +45,10 @@ lint:
     statix check flake.nix
     deadnix --fail flake.nix
     actionlint
+
+[group('quality')]
+type-check:
+    npm run type-check
 
 [group('quality')]
 test:
@@ -68,7 +72,7 @@ pre-commit:
 
 [group('release')]
 release-check:
-    node scripts/release-notes.mjs
+    node scripts/release-notes.mts
 
 [group('release')]
 package: release-check
