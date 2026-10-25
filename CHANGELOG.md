@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-25
+
+- End unfinished interpolation at its surrounding quote or line boundary, so later declarations and comments recover correctly.
+- Preserve valid multiline strings, escaped quotes and literal apostrophes in unquoted values.
+- Add regression tests that carry tokenizer state across lines.
+
 ## [1.0.1] - 2026-10-25
 
 - Recognize the declaration key and its first equals sign in a dedicated value context; preserve URL-query text and base64padding.

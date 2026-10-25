@@ -80,3 +80,27 @@ test('constant highlighting does not begin inside an unquoted word', () => {
   const line = 'VALUE=nottruevalue';
   assert.ok(!scopesAt(line, line.indexOf('true')).includes('constant.language.env'));
 });
+
+for (const firstLine of ['A="${UNFINISHED"', "UNQUOTED=it's literal"]) {
+  test(`following declarations recover after ${firstLine}`, () => {
+    let state = grammar.tokenizeLine(firstLine).ruleStack;
+    const next = grammar.tokenizeLine('NEXT=ok', state);
+    assert.ok(next.tokens[0].scopes.includes('variable.other.env'));
+    assert.ok(next.tokens.some(token => token.scopes.includes('keyword.operator.assignment.env')));
+    assert.ok(!next.tokens.some(token => token.scopes.some(scope => scope.startsWith('string.quoted.'))));
+    state = next.ruleStack;
+    const comment = grammar.tokenizeLine('# comment', state);
+    assert.ok(comment.tokens[0].scopes.includes('comment.line.number-sign.env'));
+  });
+}
+
+test('balanced multiline quoted values retain string scopes and then recover', () => {
+  for (const quote of ['"', "'"]) {
+    let state = grammar.tokenizeLine(`A=${quote}first`).ruleStack;
+    const content = grammar.tokenizeLine('second # literal', state);
+    assert.ok(content.tokens.every(token => token.scopes.some(scope => scope.startsWith('string.quoted.'))));
+    const end = grammar.tokenizeLine(`last${quote}`, content.ruleStack);
+    const next = grammar.tokenizeLine('NEXT=ok', end.ruleStack);
+    assert.ok(next.tokens[0].scopes.includes('variable.other.env'));
+  }
+});
