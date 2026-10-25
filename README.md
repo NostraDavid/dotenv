@@ -4,6 +4,19 @@ Syntax highlighting for environment files, with tested quote, comment, assignmen
 
 A maintained fork of [mikestead/vscode-dotenv](https://github.com/mikestead/vscode-dotenv). Original authorship and license notices are preserved. This fork starts at **1.0.0**.
 
+## Highlighting fixes
+
+Both columns use the actual grammars and the same VS Code Dark+ theme.
+
+![Before and after four DotENV highlighting fixes: assignment spacing, export inside values, unquoted references, and literal braces.](images/highlighting-comparison.png)
+
+- Keys with extra spaces before `=` keep their variable highlighting.
+- `export` inside a value such as `exporter` stays ordinary text.
+- Unquoted `${HOME}` and `$USER` receive variable highlighting.
+- `"{literal}"` stays a string because plain braces do not start interpolation.
+
+The original grammar is from [`mikestead.dotenv` v1.0.1 at `ad506a6`](https://github.com/mikestead/vscode-dotenv/blob/ad506a66ede7d6215cb1f2a16c169eadd414916e/syntaxes/env.tmLanguage). The fixed grammar is from this fork's v1.0.0. Colors depend on your theme.
+
 ## Install
 
 Download `nostradavid-dotenv-1.0.0.vsix` from [GitHub Releases](https://github.com/NostraDavid/dotenv/releases). In VS Code, open Extensions, choose **Install from VSIX**, and select that file.
